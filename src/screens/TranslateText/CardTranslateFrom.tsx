@@ -3,21 +3,24 @@ import IconArrowRight from 'components/icons/IconArrowRight';
 import IconSound from 'components/icons/IconSound';
 import React from 'react';
 import {StyleProp, TextInput, TouchableOpacity, ViewStyle} from 'react-native';
+import {getFullLanguageName, LanguageVariant} from 'utils/constant';
 
 interface Props {
-  language: string;
+  language: LanguageVariant;
   textTranslate: string;
   style?: StyleProp<ViewStyle>;
   onChangeText?: (text: string) => void;
   onTranslate?: () => void;
+  onSpeech?: () => void;
 }
 
 const CardTranslateFrom = (props: Props) => {
-  const {language, textTranslate, style, onChangeText, onTranslate} = props;
+  const {language, textTranslate, style, onChangeText, onTranslate, onSpeech} =
+    props;
   return (
     <Box p={20} style={[{backgroundColor: '#182968', borderRadius: 24}, style]}>
       <Typography variant="Regular12" color="White" style={{marginBottom: 20}}>
-        {language}
+        {getFullLanguageName(language)}
       </Typography>
       <Box row center space="between" mb={10}>
         <TextInput
@@ -33,7 +36,7 @@ const CardTranslateFrom = (props: Props) => {
         </TouchableOpacity>
       </Box>
       {textTranslate && (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onSpeech}>
           <IconSound style={{alignSelf: 'flex-end'}} />
         </TouchableOpacity>
       )}
