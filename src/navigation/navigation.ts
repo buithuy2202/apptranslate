@@ -1,6 +1,7 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {History} from 'containers/Config/slice';
 
 export enum APP_SCREEN {
   UNAUTHORIZE = 'UNAUTHORIZE',
@@ -10,6 +11,7 @@ export enum APP_SCREEN {
   TRANSLATE_TEXT = 'TRANSLATE_TEXT',
   HISTORY = 'HISTORY',
   TRANSLATE_CAMERA = 'TRANSLATE_CAMERA',
+  CONVERSATION = 'CONVERSATION',
 }
 
 export type RootStackParamList = {
@@ -21,13 +23,14 @@ export type RootStackParamList = {
 
 export type AuthStackParamList = {
   [APP_SCREEN.HOME_TAB]: undefined;
+  [APP_SCREEN.CONVERSATION]: undefined;
 };
 
 export type UnAuthStackParamList = {};
 
 export type HomeTabParamList = {
   [APP_SCREEN.HOME]: undefined;
-  [APP_SCREEN.TRANSLATE_TEXT]: undefined;
+  [APP_SCREEN.TRANSLATE_TEXT]: {historySaved?: History};
   [APP_SCREEN.HISTORY]: undefined;
   [APP_SCREEN.TRANSLATE_CAMERA]: undefined;
 };

@@ -34,7 +34,7 @@ const HomeScreen: FC<HomeTabScreenProps<APP_SCREEN.HOME>> = ({navigation}) => {
       />
       <Box row wrap style={{gap: 20}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate(APP_SCREEN.TRANSLATE_TEXT)}
+          onPress={() => navigation.navigate(APP_SCREEN.TRANSLATE_TEXT, {})}
           style={{
             alignItems: 'center',
             justifyContent: 'center',
@@ -69,6 +69,7 @@ const HomeScreen: FC<HomeTabScreenProps<APP_SCREEN.HOME>> = ({navigation}) => {
           </Typography>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate(APP_SCREEN.CONVERSATION)}
           style={{
             alignItems: 'center',
             justifyContent: 'center',

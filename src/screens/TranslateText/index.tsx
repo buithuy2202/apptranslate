@@ -1,11 +1,16 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import {translate} from '@vitalets/google-translate-api';
 import {Box, Typography} from 'components';
 import IconCheck from 'components/icons/IconCheck';
 import IconClose from 'components/icons/IconClose';
 import IconRepeat from 'components/icons/IconRepeat';
 import IconSearch from 'components/icons/IconSearch';
+import IconStar from 'components/icons/IconStar';
+import IconStarOutlined from 'components/icons/IconStarOutlined';
+import {historySelector} from 'containers/Config/selectors';
+import {History, saveHistory} from 'containers/Config/slice';
 import {APP_SCREEN, HomeTabScreenProps} from 'navigation/navigation';
-import React, {FC, useCallback, useRef, useState} from 'react';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Keyboard,
@@ -17,28 +22,27 @@ import {
 } from 'react-native';
 import ActionSheet, {ActionSheetRef} from 'react-native-actions-sheet';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Tts from 'react-native-tts';
+import {useAppDispatch, useAppSelector} from 'store/store';
 import {Colors} from 'utils/colors';
 import {
-  getFullLanguageName,
   LanguageVariant,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
+  getFullLanguageName,
   supportedLanguages,
 } from 'utils/constant';
 import CardTranslateFrom from './CardTranslateFrom';
 import CardTranslateTo from './CardTranslateTo';
-import Clipboard from '@react-native-clipboard/clipboard';
-import Tts from 'react-native-tts';
-import IconStarOutlined from 'components/icons/IconStarOutlined';
-import {useAppDispatch, useAppSelector} from 'store/store';
-import {History, saveHistory} from 'containers/Config/slice';
-import {historySelector} from 'containers/Config/selectors';
-import IconStar from 'components/icons/IconStar';
 
-const TranslateText: FC<HomeTabScreenProps<APP_SCREEN.TRANSLATE_TEXT>> = () => {
+const TranslateText: FC<HomeTabScreenProps<APP_SCREEN.TRANSLATE_TEXT>> = ({
+  route,
+}) => {
   const insets = useSafeAreaInsets();
+  console.log(route.params);
   const dispatch = useAppDispatch();
   const history = useAppSelector(historySelector);
+
   const actionSheetFromRef = useRef<ActionSheetRef>(null);
   const actionSheetToRef = useRef<ActionSheetRef>(null);
   const [languageFrom, setLanguageFrom] = useState<LanguageVariant>('vi');
@@ -145,6 +149,15 @@ const TranslateText: FC<HomeTabScreenProps<APP_SCREEN.TRANSLATE_TEXT>> = () => {
       </TouchableOpacity>
     );
   };
+
+  useEffect(() => {
+    if (route.params && route.params.historySaved) {
+      setLanguageFrom(route.params.historySaved?.from.lang);
+      setLanguageTo(route.params.historySaved?.to.lang);
+      setTextFrom(route.params.historySaved?.from.text);
+      setTextTo(route.params.historySaved?.to.text);
+    }
+  }, [route.params]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

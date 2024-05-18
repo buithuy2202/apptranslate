@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.mybaseproject"
+    namespace "com.apptranslate"
     defaultConfig {
-        applicationId "com.mybaseproject"
+        applicationId "com.apptranslate"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

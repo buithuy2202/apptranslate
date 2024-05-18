@@ -7,7 +7,7 @@ import IconHome from 'components/icons/IconHome';
 import IconTranslateCamera from 'components/icons/IconTranslateCamera';
 import IconTranslateText from 'components/icons/IconTranslateText';
 import {KeyboardAvoidingView, Platform, View} from 'react-native';
-import FavoriteScreen from 'screens/Favorite';
+import FavoriteScreen from 'screens/History';
 import HomeScreen from 'screens/Home';
 import ProfileScreen from 'screens/Profile';
 import TranslateText from 'screens/TranslateText';
