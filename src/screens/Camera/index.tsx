@@ -1,8 +1,9 @@
 import TesseractOcr from '@devinikhiya/react-native-tesseractocr';
+import {translate} from '@vitalets/google-translate-api';
 import {Box, Typography} from 'components';
+import IconArrowRight from 'components/icons/IconArrowRight';
 import IconCheck from 'components/icons/IconCheck';
 import IconClose from 'components/icons/IconClose';
-import IconRepeat from 'components/icons/IconRepeat';
 import IconSearch from 'components/icons/IconSearch';
 import IconTranslateCamera from 'components/icons/IconTranslateCamera';
 import {APP_SCREEN, HomeTabScreenProps} from 'navigation/navigation';
@@ -21,11 +22,11 @@ import {ImagePickerResponse, launchCamera} from 'react-native-image-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Colors} from 'utils/colors';
 import {
-  LanguageVariant,
+  LanguageCameraVariant,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   getFullLanguageName,
-  supportedLanguages,
+  supportedLanguagesCamera,
 } from 'utils/constant';
 
 const CameraScreen: FC<
@@ -34,15 +35,17 @@ const CameraScreen: FC<
   const insets = useSafeAreaInsets();
   const actionSheetFromRef = useRef<ActionSheetRef>(null);
   const actionSheetToRef = useRef<ActionSheetRef>(null);
-  const [languageFrom, setLanguageFrom] = useState<LanguageVariant>('vi');
-  const [languageTo, setLanguageTo] = useState<LanguageVariant>('en');
+  const [languageFrom, setLanguageFrom] = useState<LanguageCameraVariant>('vi');
+  const [languageTo, setLanguageTo] = useState<LanguageCameraVariant>('en');
   const [searchLanguageFrom, setSearchLanguageFrom] = useState<string>('');
   const [searchLanguageTo, setSearchLanguageTo] = useState<string>('');
   const [text, setText] = useState<string>('');
+  const [textTo, setTextTo] = useState<string>('');
   const [imageUri, setImageUri] = useState<string>();
 
   const handleLaunchCamera = () => {
     setText('');
+    setTextTo('');
     setImageUri('');
     launchCamera(
       {
@@ -69,21 +72,36 @@ const CameraScreen: FC<
       };
       const recognizedText = await TesseractOcr.recognize(
         imageUri,
-        getFullLanguageName(languageTo).toLowerCase().substring(0, 3),
+        getFullLanguageName(languageFrom).toLowerCase().substring(0, 3),
         tesseractOptions,
       );
       setText(recognizedText);
+      translation();
     } catch (err) {
       console.error('err', err);
     }
   };
 
-  const languageCodes = Object.keys(supportedLanguages).map(lang => {
+  const translation = async () => {
+    try {
+      const res = await translate(text, {
+        from: languageFrom,
+        to: languageTo,
+      });
+      setTextTo(res.text);
+      console.log('text to', textTo);
+    } catch (error) {
+      console.log('error', error);
+      setTextTo('Can not translate');
+    }
+  };
+
+  const languageCodes = Object.keys(supportedLanguagesCamera).map(lang => {
     if (typeof lang !== 'string') {
       return;
     }
     return lang;
-  }) as LanguageVariant[];
+  }) as LanguageCameraVariant[];
 
   const getLanguageCodes = (searchText: string) => {
     if (!searchText) {
@@ -96,9 +114,9 @@ const CameraScreen: FC<
     );
   };
 
-  const renderItemFrom: ListRenderItem<LanguageVariant> = ({
+  const renderItemFrom: ListRenderItem<LanguageCameraVariant> = ({
     item,
-  }: ListRenderItemInfo<LanguageVariant>) => {
+  }: ListRenderItemInfo<LanguageCameraVariant>) => {
     return (
       <TouchableOpacity
         onPress={() => {
@@ -115,9 +133,9 @@ const CameraScreen: FC<
     );
   };
 
-  const renderItemTo: ListRenderItem<LanguageVariant> = ({
+  const renderItemTo: ListRenderItem<LanguageCameraVariant> = ({
     item,
-  }: ListRenderItemInfo<LanguageVariant>) => {
+  }: ListRenderItemInfo<LanguageCameraVariant>) => {
     return (
       <TouchableOpacity
         onPress={() => {
@@ -173,11 +191,7 @@ const CameraScreen: FC<
             {getFullLanguageName(languageTo)}
           </Typography>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setLanguageFrom(languageTo);
-            setLanguageTo(languageFrom);
-          }}
+        <Box
           style={{
             position: 'absolute',
             left: '50%',
@@ -187,12 +201,18 @@ const CameraScreen: FC<
             borderRadius: 100,
             backgroundColor: '#F24E1E',
           }}>
-          <IconRepeat />
-        </TouchableOpacity>
+          <IconArrowRight />
+        </Box>
       </Box>
-      {imageUri && <Image source={{uri: imageUri}} style={styles.image} />}
+      {imageUri && (
+        <Image
+          source={{uri: imageUri}}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      )}
       <Typography variant="Regular14" color="White">
-        {text}
+        {textTo}
       </Typography>
       <Box
         center

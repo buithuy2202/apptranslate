@@ -5,6 +5,14 @@ const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 enum APIs {}
 
 export {APIs, SCREEN_HEIGHT, SCREEN_WIDTH};
+
+export const supportedLanguagesCamera = {
+  en: 'English',
+  vi: 'Vietnamese',
+  af: 'Afrikaans',
+  am: 'Amharic',
+  ar: 'Arabic',
+};
 export const supportedLanguages = {
   af: 'Afrikaans',
   am: 'Amharic',
@@ -112,6 +120,7 @@ export const supportedLanguages = {
 };
 
 export type LanguageVariant = keyof typeof supportedLanguages;
+export type LanguageCameraVariant = keyof typeof supportedLanguagesCamera;
 
 export function getFullLanguageName(code: LanguageVariant) {
   return supportedLanguages[code];
