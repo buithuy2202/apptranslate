@@ -8,19 +8,19 @@ import {LanguageVariant, getFullLanguageName} from 'utils/constant';
 
 interface Props {
   language: LanguageVariant;
-  textTranslated: string;
+  textTranslate: string;
   style?: StyleProp<ViewStyle>;
   onSpeech?: () => void;
   copyText?: () => void;
 }
 
-const CardTranslateTo = (props: Props) => {
-  const {language, textTranslated, style, onSpeech, copyText} = props;
+const CardTranslate = (props: Props) => {
+  const {language, textTranslate, style, onSpeech, copyText} = props;
 
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: textTranslated,
+        message: textTranslate,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -44,9 +44,9 @@ const CardTranslateTo = (props: Props) => {
       </Typography>
       <Typography
         variant="Regular16"
-        color={textTranslated === 'Error' ? 'Red_500' : 'White'}
+        color={textTranslate === 'Error' ? 'Red_500' : 'White'}
         style={{marginBottom: 8}}>
-        {textTranslated}
+        {textTranslate}
       </Typography>
       <Box row center>
         <TouchableOpacity onPress={copyText}>
@@ -65,4 +65,4 @@ const CardTranslateTo = (props: Props) => {
   );
 };
 
-export default CardTranslateTo;
+export default CardTranslate;

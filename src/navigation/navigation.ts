@@ -12,6 +12,7 @@ export enum APP_SCREEN {
   HISTORY = 'HISTORY',
   TRANSLATE_CAMERA = 'TRANSLATE_CAMERA',
   CONVERSATION = 'CONVERSATION',
+  RECORD = 'RECORD',
 }
 
 export type RootStackParamList = {
@@ -24,6 +25,7 @@ export type RootStackParamList = {
 export type AuthStackParamList = {
   [APP_SCREEN.HOME_TAB]: undefined;
   [APP_SCREEN.CONVERSATION]: undefined;
+  [APP_SCREEN.RECORD]: undefined;
 };
 
 export type UnAuthStackParamList = {};

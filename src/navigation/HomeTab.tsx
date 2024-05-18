@@ -7,9 +7,9 @@ import IconHome from 'components/icons/IconHome';
 import IconTranslateCamera from 'components/icons/IconTranslateCamera';
 import IconTranslateText from 'components/icons/IconTranslateText';
 import {KeyboardAvoidingView, Platform, View} from 'react-native';
-import FavoriteScreen from 'screens/History';
+import CameraScreen from 'screens/Camera';
+import HistoryScreen from 'screens/History';
 import HomeScreen from 'screens/Home';
-import ProfileScreen from 'screens/Profile';
 import TranslateText from 'screens/TranslateText';
 
 const TabHome = createBottomTabNavigator<HomeTabParamList>();
@@ -60,12 +60,12 @@ export const HomeTab = (): JSX.Element => {
         />
         <TabHome.Screen
           name={APP_SCREEN.HISTORY}
-          component={FavoriteScreen}
+          component={HistoryScreen}
           options={{tabBarLabel: 'Lưu'}}
         />
         <TabHome.Screen
           name={APP_SCREEN.TRANSLATE_CAMERA}
-          component={ProfileScreen}
+          component={CameraScreen}
           options={{tabBarLabel: 'Máy ảnh'}}
         />
       </TabHome.Navigator>

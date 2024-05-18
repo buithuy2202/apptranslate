@@ -52,6 +52,7 @@ const HomeScreen: FC<HomeTabScreenProps<APP_SCREEN.HOME>> = ({navigation}) => {
           </Typography>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate(APP_SCREEN.RECORD)}
           style={{
             alignItems: 'center',
             justifyContent: 'center',

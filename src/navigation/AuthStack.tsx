@@ -1,5 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ConversationScreen from 'screens/Conversation';
+import RecordScreen from 'screens/Record';
 import {HomeTab} from './HomeTab';
 import {navOptionHandler} from './RootStack';
 import {APP_SCREEN, AuthStackParamList} from './navigation';
@@ -16,6 +17,7 @@ const AuthStack = (): JSX.Element => {
         name={APP_SCREEN.CONVERSATION}
         component={ConversationScreen}
       />
+      <Stack.Screen name={APP_SCREEN.RECORD} component={RecordScreen} />
     </Stack.Navigator>
   );
 };
