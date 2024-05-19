@@ -7,7 +7,7 @@ import IconClose from 'components/icons/IconClose';
 import IconSearch from 'components/icons/IconSearch';
 import IconTranslateCamera from 'components/icons/IconTranslateCamera';
 import {APP_SCREEN, HomeTabScreenProps} from 'navigation/navigation';
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -76,7 +76,6 @@ const CameraScreen: FC<
         tesseractOptions,
       );
       setText(recognizedText);
-      translation();
     } catch (err) {
       console.error('err', err);
     }
@@ -89,7 +88,6 @@ const CameraScreen: FC<
         to: languageTo,
       });
       setTextTo(res.text);
-      console.log('text to', textTo);
     } catch (error) {
       console.log('error', error);
       setTextTo('Can not translate');
@@ -151,6 +149,12 @@ const CameraScreen: FC<
       </TouchableOpacity>
     );
   };
+
+  useEffect(() => {
+    if (text) {
+      translation();
+    }
+  }, [text]);
 
   return (
     <Box
